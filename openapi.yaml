@@ -1,1122 +1,1101 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
-  description: "This is a API for ordering food from restaurants for clients. Its has also some endpoints for the restaurant to manage orders etc"
-  version: "1.0.0"
-  title: "Food Delivery API"
-basePath: "/v1"
+  description: This is a API for ordering food from restaurants for clients. Its has also
+    some endpoints for the restaurant to manage orders etc
+  version: 1.0.0
+  title: Food Delivery API
 tags:
-  - name: "order"
-    description: "Ordering dishes with optional additional incredients"
-  - name: "client"
-    description: "Clients who order dishes from restaurant"
-  - name: "product"
-    description: "Dishes from the restaurant"
-  - name: "company"
-    description: "Restaurants"
-  - name: "email"
-    description: "Sending email notofications to restaurant or client"
-  - name: "payment"
-    description: "Management of paypal payments"
-  - name: "coupon"
-    description: "Management of coupons"
-  - name: "user"
-    description: "Operations about user - authentication with jwt"
-schemes:
-  - "https"
-  - "http"
+  - name: order
+    description: Ordering dishes with optional additional incredients
+  - name: client
+    description: Clients who order dishes from restaurant
+  - name: product
+    description: Dishes from the restaurant
+  - name: company
+    description: Restaurants
+  - name: email
+    description: Sending email notofications to restaurant or client
+  - name: payment
+    description: Management of paypal payments
+  - name: coupon
+    description: Management of coupons
+  - name: user
+    description: Operations about user - authentication with jwt
 paths:
-  /coupons/{number}/status:
+  "/coupons/{number}/status":
     get:
       tags:
-        - "product"
-      summary: "Get coupon status"
+        - product
+      summary: Get coupon status
       description: ""
-      operationId: "getCouponStatus"
-      produces:
-        - "application/json"
+      operationId: getCouponStatus
       parameters:
-        - name: "number"
-          in: "path"
+        - name: number
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Coupon"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+        "400":
+          description: Invalid ID supplied
   /coupons:
     get:
       tags:
-        - "coupon"
-      summary: "Get all coupons"
+        - coupon
+      summary: Get all coupons
       description: ""
-      operationId: "listCoupons"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Coupon object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Coupon"
+      operationId: listCoupons
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Coupon"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
     post:
       tags:
-        - "coupon"
-      summary: "Add new coupon"
+        - coupon
+      summary: Add new coupon
       description: ""
-      operationId: "addCoupon"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Coupon object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Coupon"
+      operationId: addCoupon
+      requestBody:
+        $ref: "#/components/requestBodies/Coupon"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Coupon"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
   /payments:
     get:
       tags:
-        - "payment"
-      summary: "Get all payments"
+        - payment
+      summary: Get all payments
       description: ""
-      operationId: "listPayment"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Payment object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Payment"
+      operationId: listPayment
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Payment"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
     post:
       tags:
-        - "payment"
-      summary: "Add new payment"
+        - payment
+      summary: Add new payment
       description: ""
-      operationId: "addPayment"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Payment object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Payment"
+      operationId: addPayment
+      requestBody:
+        $ref: "#/components/requestBodies/Payment"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Payment"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
   /products/categories:
     get:
       tags:
-        - "product"
-      summary: "Get all categories"
+        - product
+      summary: Get all categories
       description: ""
-      operationId: "getCategories"
-      produces:
-        - "application/json"
+      operationId: getCategories
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Category"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
     post:
       tags:
-        - "product"
-      summary: "Add new category"
+        - product
+      summary: Add new category
       description: ""
-      operationId: "addCategory"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Category object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Category"
+      operationId: addCategory
+      requestBody:
+        $ref: "#/components/requestBodies/Category"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Category"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
     put:
       tags:
-        - "product"
-      summary: "Update category"
+        - product
+      summary: Update category
       description: ""
-      operationId: "updateCategory"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Category object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Category"
+      operationId: updateCategory
+      requestBody:
+        $ref: "#/components/requestBodies/Category"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Category"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
   /products/addons:
     get:
       tags:
-        - "product"
-      summary: "Get all addon"
+        - product
+      summary: Get all addon
       description: ""
-      operationId: "getAddons"
-      produces:
-        - "application/json"
+      operationId: getAddons
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Addon"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Addon"
     post:
       tags:
-        - "product"
-      summary: "Add new addon"
+        - product
+      summary: Add new addon
       description: ""
-      operationId: "addAddon"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Addon object that needs to be updated in the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Addon"
+      operationId: addAddon
+      requestBody:
+        $ref: "#/components/requestBodies/Addon"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Addon"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Addon"
     put:
       tags:
-        - "product"
-      summary: "Update addon"
+        - product
+      summary: Update addon
       description: ""
-      operationId: "updateAddon"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Addon object that needs to be updated in the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Addon"
+      operationId: updateAddon
+      requestBody:
+        $ref: "#/components/requestBodies/Addon"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Addon"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Addon"
   /products:
     post:
       tags:
-        - "product"
-      summary: "Add new product"
+        - product
+      summary: Add new product
       description: ""
-      operationId: "addProduct"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Product object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Product"
+      operationId: addProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        description: Product object that needs to be added to the store
+        required: true
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Product"
-  /products/{id}/categories:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  "/products/{id}/categories":
     get:
       tags:
-        - "product"
-      summary: "Get product categories"
+        - product
+      summary: Get product categories
       description: ""
-      operationId: "getProductCategories"
-      produces:
-        - "application/json"
+      operationId: getProductCategories
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Category"
-  /products/{id}/addons:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        "400":
+          description: Invalid ID supplied
+  "/products/{id}/addons":
     get:
       tags:
-        - "product"
-      summary: "Get product addons"
+        - product
+      summary: Get product addons
       description: ""
-      operationId: "getProductAddons"
-      produces:
-        - "application/json"
+      operationId: getProductAddons
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Addon"
-  /products/{id}:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Addon"
+        "400":
+          description: Invalid ID supplied
+  "/products/{id}":
     get:
       tags:
-        - "product"
-      summary: "Get product"
+        - product
+      summary: Get product
       description: ""
-      operationId: "getProduct"
-      produces:
-        - "application/json"
+      operationId: getProduct
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Product"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "product"
-      summary: "Update product"
+        - product
+      summary: Update product
       description: ""
-      operationId: "updateProduct"
-      produces:
-        - "application/json"
+      operationId: updateProduct
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Product"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid ID supplied
     delete:
       tags:
-        - "product"
-      summary: "Delete product"
+        - product
+      summary: Delete product
       description: ""
-      operationId: "deleteProduct"
-      produces:
-        - "application/json"
+      operationId: deleteProduct
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Product"
-  /orders/{id}/payments/status:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Invalid ID supplied
+  "/orders/{id}/payments/status":
     get:
       tags:
-        - "order"
-      summary: "Get payment status of specified order"
+        - order
+      summary: Get payment status of specified order
       description: ""
-      operationId: "getOrderPaymentStatus"
-      produces:
-        - "application/json"
+      operationId: getOrderPaymentStatus
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/PaymentStatus"
-  /orders/{id}/status:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentStatus"
+        "400":
+          description: Invalid ID supplied
+  "/orders/{id}/status":
     get:
       tags:
-        - "order"
-      summary: "Get status of specified order"
+        - order
+      summary: Get status of specified order
       description: ""
-      operationId: "getOrderStatus"
-      produces:
-        - "application/json"
+      operationId: getOrderStatus
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/OrderStatus"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderStatus"
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "order"
-      summary: "Updates status of order"
+        - order
+      summary: Updates status of order
       description: ""
-      operationId: "updateOrderStatus"
-      produces:
-        - "application/json"
+      operationId: updateOrderStatus
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
-  /orders/{id}:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
+  "/orders/{id}":
     get:
       tags:
-        - "order"
-      summary: "Get a new order"
+        - order
+      summary: Get a new order
       description: ""
-      operationId: "getOrder"
-      produces:
-        - "application/json"
+      operationId: getOrder
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
     delete:
       tags:
-        - "order"
-      summary: "Delete order is status is open"
+        - order
+      summary: Delete order is status is open
       description: ""
-      operationId: "deleteOrder"
-      produces:
-        - "application/json"
+      operationId: deleteOrder
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "order"
-      summary: "Updates order"
+        - order
+      summary: Updates order
       description: ""
-      operationId: "updateOrder"
-      produces:
-        - "application/json"
+      operationId: updateOrder
       parameters:
-        - name: "id"
-          in: "path"
+        - name: id
+          in: path
           required: true
-          type: "string"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
   /orders:
     post:
       tags:
-        - "order"
-      summary: "Add a new order"
+        - order
+      summary: Add a new order
       description: ""
-      operationId: "addOrder"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Order object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Order"
+      operationId: addOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        description: Order object that needs to be added to the store
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
     get:
       tags:
-        - "order"
-      summary: "Get orders"
+        - order
+      summary: Get orders
       description: ""
-      operationId: "getOrders"
+      operationId: getOrders
       parameters:
-        - name: "status"
-          in: "query"
+        - name: status
+          in: query
           required: false
-          type: "string"
-          enum:
-            - "open"
-            - "started"
-            - "canceled"
-            - "delivered"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Order"
+            type: string
+            enum:
+              - open
+              - started
+              - canceled
+              - delivered
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid ID supplied
   /company:
     post:
       tags:
-        - "company"
-      summary: "Add a new company"
+        - company
+      summary: Add a new company
       description: ""
-      operationId: "addCompany"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Company object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/Company"
+      operationId: addCompany
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Company"
+        description: Company object that needs to be added to the store
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Company"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: Invalid ID supplied
     get:
       tags:
-        - "company"
-      summary: "Get companies"
+        - company
+      summary: Get companies
       description: ""
-      operationId: "getCompanies"
+      operationId: getCompanies
       parameters:
-        - name: "status"
-          in: "query"
+        - name: status
+          in: query
           required: false
-          type: "string"
-          enum:
-            - "open"
-            - "closed"
-        - name: "minDeliveryAmount"
-          in: "query"
-          required: false
-          type: "number"
-        - name: "rating"
-          in: "query"
-          required: false
-          type: "number"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Company"
-  /company/{id}:
+            type: string
+            enum:
+              - open
+              - closed
+        - name: minDeliveryAmount
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: rating
+          in: query
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Company"
+        "400":
+          description: Invalid ID supplied
+  "/company/{id}":
     get:
       tags:
-        - "company"
-      summary: "Get company"
+        - company
+      summary: Get company
       description: ""
-      operationId: "getCompany"
+      operationId: getCompany
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Company"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: Invalid ID supplied
     delete:
       tags:
-        - "company"
-      summary: "Delete company"
+        - company
+      summary: Delete company
       description: ""
-      operationId: "deleteCompany"
+      operationId: deleteCompany
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Company"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "company"
-      summary: "Update company"
+        - company
+      summary: Update company
       description: ""
-      operationId: "updateCompany"
+      operationId: updateCompany
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
-          required: true
-        - in: "body"
-          name: "body"
-          description: "Company object that needs to be added updated in the store"
+        - name: id
+          in: path
           required: true
           schema:
-            $ref: "#/definitions/Company"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Company"
+        description: Company object that needs to be added updated in the store
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Company"
-  /company/{id}/status:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "400":
+          description: Invalid ID supplied
+  "/company/{id}/status":
     get:
       tags:
-        - "company"
-      summary: "Get company open status"
+        - company
+      summary: Get company open status
       description: ""
-      operationId: "getCompanyStatus"
+      operationId: getCompanyStatus
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            type: "string"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "company"
-      summary: "Update company open status"
+        - company
+      summary: Update company open status
       description: ""
-      operationId: "updateCompanyStatus"
+      operationId: updateCompanyStatus
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-        - name: "status"
-          in: "query"
-          type: "string"
-          required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            type: "string"
-  /company/{id}/postcodes:
+            type: string
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Invalid ID supplied
+  "/company/{id}/postcodes":
     get:
       tags:
-        - "company"
-      summary: "Get company postcodes for delivery"
+        - company
+      summary: Get company postcodes for delivery
       description: ""
-      operationId: "getCompanyPostcodes"
+      operationId: getCompanyPostcodes
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Postcode"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Postcode"
+        "400":
+          description: Invalid ID supplied
   /email:
     post:
       tags:
-        - "email"
-      summary: "Send new mail"
+        - email
+      summary: Send new mail
       description: ""
-      operationId: "sendEmail"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Mail that needs to be send"
-          required: true
-          schema:
-            $ref: "#/definitions/EMail"
+      operationId: sendEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EMail"
+        description: Mail that needs to be send
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/EMail"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EMail"
+        "400":
+          description: Invalid ID supplied
   /clients:
     post:
       tags:
-        - "client"
-      summary: "Add new client"
+        - client
+      summary: Add new client
       description: ""
-      operationId: "addClient"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Mail that needs to be send"
-          required: true
-          schema:
-            $ref: "#/definitions/Client"
+      operationId: addClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
+        description: Mail that needs to be send
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Client"
-  /clients/{id}:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Invalid ID supplied
+  "/clients/{id}":
     delete:
       tags:
-        - "client"
-      summary: "Delete client"
+        - client
+      summary: Delete client
       description: ""
-      operationId: "deleteClient"
+      operationId: deleteClient
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Client"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Invalid ID supplied
     get:
       tags:
-        - "client"
-      summary: "Get client"
+        - client
+      summary: Get client
       description: ""
-      operationId: "getClient"
+      operationId: getClient
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
+        - name: id
+          in: path
           required: true
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "200":
-          description: "successful operation"
           schema:
-            $ref: "#/definitions/Client"
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Invalid ID supplied
     put:
       tags:
-        - "client"
-      summary: "Update client"
+        - client
+      summary: Update client
       description: ""
-      operationId: "updateClient"
+      operationId: updateClient
       parameters:
-        - name: "id"
-          in: "path"
-          type: "string"
-          required: true
-        - in: "body"
-          name: "body"
-          description: "Payment object that needs to be added to the store"
+        - name: id
+          in: path
           required: true
           schema:
-            $ref: "#/definitions/Client"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
+        description: Payment object that needs to be added to the store
+        required: true
       responses:
-        "400":
-          description: "Invalid ID supplied"
         "200":
-          description: "successful operation"
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Invalid ID supplied
+servers:
+  - url: /v1
+components:
+  requestBodies:
+    Coupon:
+      content:
+        application/json:
           schema:
-            $ref: "#/definitions/Client"
-definitions:
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      products:
-        type: "array"
-        items:
-          $ref: "#/definitions/Product"
-      deliveryDate:
-        type: "string"
-        format: "date-time"
-      status:
-        $ref: "#/definitions/OrderStatus"
-      client:
-        $ref: "#/definitions/Client"
-      complete:
-        type: "boolean"
-        default: false
-      coupon:
-        $ref: "#/definitions/Coupon"
-  Product:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      title:
-        type: "string"
-      info:
-        type: "string"
-      price:
-        type: "number"
-      category:
-        $ref: "#/definitions/Category"
-      addons:
-        type: "array"
-        items:
-          $ref: "#/definitions/Addon"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-  Addon:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      price:
-        type: "number"
-  OrderStatus:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-        description: "Order Status"
-        enum:
-          - "open"
-          - "started"
-          - "canceled"
-          - "delivered"
-  Payment:
-    description: "incompleted, has to be extended due development"
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      client:
-        $ref: "#/definitions/Client"
-      paymentStatus:
-        $ref: "#/definitions/PaymentStatus"
-      links:
-        type: "array"
-        items:
-          $ref: "#/definitions/Link"
-      coupon:
-        $ref: "#/definitions/Coupon"
-  PaymentStatus:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-        description: "Payment Status"
-        enum:
-          - "inProgress"
-          - "paid"
-          - "canceled"
-  Link:
-    description: "dynamically generated links from paypal"
-    type: "object"
-    properties:
-      href:
-        type: "string"
-      rel:
-        type: "string"
-      method:
-        type: "string"
-  Client:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      client:
-        $ref: "#/definitions/Address"
-      email:
-        type: "string"
-      phone:
-        type: "string"
-      company:
-        type: "string"
-      note:
-        type: "string"
-      preferedDeliveryTime:
-        type: "string"
-  Address:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      street:
-        type: "string"
-      streetNo:
-        type: "number"
-      city:
-        type: "string"
-      postcode:
-        type: "number"
-      floor:
-        type: "string"
-  Company:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-      imprint:
-        type: "string"
-      deliveryTimes:
-        type: "array"
-        items:
-          $ref: "#/definitions/DeliveryTime"
-      minDeliveryAmount:
-        type: "number"
-      paymentMethods:
-        type: "array"
-        items:
-          $ref: "#/definitions/Payment"
-      status:
-        type: "string"
-        description: "Opening Status"
-        enum:
-          - "open"
-          - "closed"
-      deliveryPoscodes:
-        type: "array"
-        items:
-          $ref: "#/definitions/Postcode"
-      rating:
-        $ref: "#/definitions/Rating"
-  DeliveryTime:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      day:
-        type: "string"
-      startTime:
-        type: "string"
-      endTime:
-        type: "string"
-  EMail:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      from:
-        type: "string"
-      to:
-        type: "string"
-      message:
-        type: "string"
-      company:
-        $ref: "#/definitions/Company"
-  Postcode:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      number:
-        type: "number"
-      long:
-        type: "string"
-      lat:
-        type: "string"
-  Rating:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      number:
-        type: "number"
-  Coupon:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      number:
-        type: "number"
-      client:
-        $ref: "#/definitions/Client"
-      status:
-        type: "string"
-        description: "Used Status"
-        enum:
-          - "unused"
-          - "used"
-
-
-
-
+            $ref: "#/components/schemas/Coupon"
+      description: Coupon object that needs to be added to the store
+      required: true
+    Category:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Category"
+      description: Category object that needs to be added to the store
+      required: true
+    Payment:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Payment"
+      description: Payment object that needs to be added to the store
+      required: true
+    Addon:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Addon"
+      description: Addon object that needs to be updated in the store
+      required: true
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        deliveryDate:
+          type: string
+          format: date-time
+        status:
+          $ref: "#/components/schemas/OrderStatus"
+        client:
+          $ref: "#/components/schemas/Client"
+        complete:
+          type: boolean
+          default: false
+        coupon:
+          $ref: "#/components/schemas/Coupon"
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        info:
+          type: string
+        price:
+          type: number
+        category:
+          $ref: "#/components/schemas/Category"
+        addons:
+          type: array
+          items:
+            $ref: "#/components/schemas/Addon"
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Addon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+    OrderStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Order Status
+          enum:
+            - open
+            - started
+            - canceled
+            - delivered
+    Payment:
+      description: incompleted, has to be extended due development
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        client:
+          $ref: "#/components/schemas/Client"
+        paymentStatus:
+          $ref: "#/components/schemas/PaymentStatus"
+        links:
+          type: array
+          items:
+            $ref: "#/components/schemas/Link"
+        coupon:
+          $ref: "#/components/schemas/Coupon"
+    PaymentStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Payment Status
+          enum:
+            - inProgress
+            - paid
+            - canceled
+    Link:
+      description: dynamically generated links from paypal
+      type: object
+      properties:
+        href:
+          type: string
+        rel:
+          type: string
+        method:
+          type: string
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        client:
+          $ref: "#/components/schemas/Address"
+        email:
+          type: string
+        phone:
+          type: string
+        company:
+          type: string
+        note:
+          type: string
+        preferedDeliveryTime:
+          type: string
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        street:
+          type: string
+        streetNo:
+          type: number
+        city:
+          type: string
+        postcode:
+          type: number
+        floor:
+          type: string
+    Company:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        imprint:
+          type: string
+        deliveryTimes:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryTime"
+        minDeliveryAmount:
+          type: number
+        paymentMethods:
+          type: array
+          items:
+            $ref: "#/components/schemas/Payment"
+        status:
+          type: string
+          description: Opening Status
+          enum:
+            - open
+            - closed
+        deliveryPoscodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Postcode"
+        rating:
+          $ref: "#/components/schemas/Rating"
+    DeliveryTime:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        day:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+    EMail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        from:
+          type: string
+        to:
+          type: string
+        message:
+          type: string
+        company:
+          $ref: "#/components/schemas/Company"
+    Postcode:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        number:
+          type: number
+        long:
+          type: string
+        lat:
+          type: string
+    Rating:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        number:
+          type: number
+    Coupon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        number:
+          type: number
+        client:
+          $ref: "#/components/schemas/Client"
+        status:
+          type: string
+          description: Used Status
+          enum:
+            - unused
+            - used
